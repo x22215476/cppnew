@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+            background-image: url('static/images/brickwall.jpg'); 
+            background-size: cover;
+        }
+
+        .cart-box {
+            max-width: 600px;
+            margin: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: black;
+            display: flex;
+            align-items: center;
+        }
+
+        h1 img {
+            margin-right: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        p {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: black;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .center-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-box">
+        <h1><img src="static/images/cart.jpg" alt="Cart Icon" width="60" height="60"> Your Cart</h1>
+        
+        {% if 'cart' in session %}
+            <ul>
+                {% for item in session['cart'] %}
+                    <li> {{ item.service_name }} - {{ item.cost }}</li>
+                {% endfor %}
+            </ul>
+            <p>Total Cart Price: {{ total_cart_price }}</p>
+            <ul>
+                {% for service, cost in service_data %}
+                    <li> {{ service }} - ${{ cost }}</li>
+                {% endfor %}
+            </ul>
+            <p>Cost after discount: {{ discounted_price }}</p>
+            <form method="post" action="{{ url_for('place_order') }}">
+                <button type="submit">Place Order</button>
+            </form>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+
+        <div class="center-button">
+            <a href="{{ url_for('index') }}">Add more services</a>
+        </div>
+    </div>
+</body>
+</html>

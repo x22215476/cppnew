@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interior Service</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            background-image: url('{{ url_for('static', filename='images/brickwall.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        div {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+        }
+
+        form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 15px;
+            border: 2px solid #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #111; 
+        }
+
+        p {
+            color: #555;
+        }
+    </style>
+    <script>
+        // Log the service details to the console
+        console.log("Service Details: ", {{ data | tojson | safe }});
+    </script>
+</head>
+<body>
+    <h1>INTERIOR SERVICE</h1>
+    <div>
+        <h3>Service Name: {{ data.services }}</h3>
+        <p>Craft your home with your desired style and interior for your home. Our duty is to fulfill your choice of interior.</p>
+        <p>The service cost per hour is mentioned below.</p>
+        <p>Price: ${{ data.cost }}</p>
+    </div>
+    <form action="/add_to_cart" method="POST">
+        {% if data %}
+        <input type="hidden" name="service" value="{{ data.services }}">
+        <input type="hidden" name="cost" value="{{ data.cost }}">
+        <input type="submit" value="Add Service to Cart">
+        {% else %}
+        <p>No service details available to add to the cart.</p>
+        {% endif %}
+    </form>
+</body>
+</html>
